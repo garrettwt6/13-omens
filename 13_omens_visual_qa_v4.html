@@ -2263,7 +2263,24 @@ function generateRoomCode() {
   return "OMEN-" + res;
 }
 
+function reportConnectionProblem(message) {
+  document.getElementById("connStatus").textContent = "Connection Failed — Solo mode";
+  document.getElementById("connStatus").className = "status-pill";
+  logActivity(message, "log-highlight");
+  refreshPlayerConnectionUI();
+  alert(message);
+}
+
+function peerErrorMessage(err) {
+  if(err?.type === "peer-unavailable") return "Host not found. Keep the computer's Host Chamber open and use its current room code.";
+  if(err?.type === "browser-incompatible") return "This browser cannot connect to a table. Open the app in Safari or Chrome instead of a file preview or an in-app browser.";
+  if(err?.type === "network" || err?.type === "server-error" || err?.type === "socket-error") return "Cannot reach the table connection service. Check your internet connection and try again.";
+  if(err?.type === "webrtc") return "The browser could not establish a connection to the host. Try both devices on the same Wi-Fi, or try another network.";
+  return "Table connection failed (" + (err?.type || "unknown error") + "). Keep the host page open and try again.";
+}
+
 function startHosting() {
+  if(typeof Peer === "undefined") return reportConnectionProblem("The connection library did not load. Check your internet connection, then reload the app in Safari or Chrome.");
   if (peer && !peer.destroyed && peer.id && peer.id.startsWith("13omens-")) return;
   if (peer) peer.destroy();
 
@@ -2301,7 +2318,8 @@ function startHosting() {
   });
 
   peer.on('error', (err) => {
-    if (err.type === 'unavailable-id') setTimeout(startHosting, 300);
+    if (err.type === 'unavailable-id') { peer.destroy(); setTimeout(startHosting, 300); }
+    else reportConnectionProblem(peerErrorMessage(err));
   });
 }
 
@@ -2318,6 +2336,7 @@ function copyRoomCode() {
 }
 
 function joinTable() {
+  if(typeof Peer === "undefined") return reportConnectionProblem("The connection library did not load. Check your internet connection, then reload the app in Safari or Chrome.");
   const rawCode = document.getElementById("joinRoomCode").value.trim().toUpperCase();
   if (!rawCode) return alert("Enter the Host's 4-character Room Code.");
   const code = rawCode.startsWith("OMEN-") ? rawCode : ("OMEN-" + rawCode);
@@ -2327,12 +2346,22 @@ function joinTable() {
   if(hostConn){try{hostConn.close();}catch(e){}}
   hostConn=null;
   peer = new Peer();
+  const joiningPeer = peer;
+  document.getElementById("connStatus").textContent = "Contacting table service...";
+  document.getElementById("connStatus").className = "status-pill";
+  const joinTimeout = setTimeout(() => {
+    if(peer !== joiningPeer || hostConn?.open || joiningPeer.destroyed) return;
+    joiningPeer.destroy();
+    hostConn = null;
+    reportConnectionProblem("Connection timed out. Keep the computer's Host Chamber open. Open the app in Safari or Chrome, try both devices on the same Wi-Fi, and temporarily check whether a VPN or guest network is blocking the connection.");
+  }, 20000);
 
   peer.on('open', () => {
     document.getElementById("connStatus").innerText = "Connecting to " + code + "...";
     hostConn = peer.connect(hostPeerId, { reliable: true });
 
     hostConn.on('open', () => {
+      clearTimeout(joinTimeout);
       document.getElementById("connStatus").innerText = "Joined " + code;
       document.getElementById("connStatus").className = "status-pill online";
       logActivity(`Bound to Host chamber ${code}.`, "gold");
@@ -2344,7 +2373,17 @@ function joinTable() {
       handlePlayerIncomingData(data);
     });
 
+    hostConn.on('error', (err) => {
+      if(peer !== joiningPeer) return;
+      clearTimeout(joinTimeout);
+      joiningPeer.destroy();
+      hostConn=null;
+      reportConnectionProblem(peerErrorMessage(err));
+    });
+
     hostConn.on('close', () => {
+      clearTimeout(joinTimeout);
+      if(peer !== joiningPeer) return;
       document.getElementById("connStatus").innerText = "Disconnected";
       document.getElementById("connStatus").className = "status-pill";
       hostConn=null;
@@ -2353,10 +2392,12 @@ function joinTable() {
     });
   });
 
-  peer.on('error', () => {
-    alert("Could not reach host. Verify host is active and Room Code is correct.");
-    document.getElementById("connStatus").innerText = "Connection Failed — Solo mode";
-    refreshPlayerConnectionUI();
+  peer.on('error', (err) => {
+    if(peer !== joiningPeer) return;
+    clearTimeout(joinTimeout);
+    joiningPeer.destroy();
+    hostConn=null;
+    reportConnectionProblem(peerErrorMessage(err));
   });
 }
 
@@ -2905,27 +2946,26 @@ function executeCheck() {
   if(document.getElementById(aspect[0]+"_strain_"+aspect.slice(1).join("_"))?.checked) flaws++;
   if(omenWounds()>=3) flaws++;
   const direct=document.getElementById("addDirectOmen").checked;
-  const directCanceled=direct&&edges>0;
-  if(directCanceled) edges--;
-  else if(direct) flaws++;
+  // An Edge cancels the added Flaw, but the direct Omen must still be rolled.
+  if(direct) flaws++;
   const net=edges-flaws;
-  const bagDraws=2+Math.abs(net)-(direct&&!directCanceled?1:0);
+  const bagDraws=2+Math.abs(net)-(direct?1:0);
   if(bagDraws<0||gameState.safeBag+gameState.omenBag<bagDraws) return alert("Not enough dice in the bag for this Check.");
-  if(direct&&!directCanceled&&gameState.omenPool<1) return alert("No Omen Dice in the Host reserve for a direct Omen.");
+  if(direct&&gameState.omenPool<1) return alert("No Omen Dice in the Host reserve for a direct Omen.");
   isRolling=true;
   const btn=document.getElementById("rollBtn");btn.disabled=true;
   const ctx={tn,net,aspect,aspectName};
   if(hostConn?.open){
     const id=++nextCheckId;
     pendingDrawRequest={...ctx,id};
-    hostConn.send({type:"DRAW_REQUEST",id,count:bagDraws,direct:direct&&!directCanceled});
+    hostConn.send({type:"DRAW_REQUEST",id,count:bagDraws,direct:direct});
     return;
   }
-  const drawn=drawFromSupply(gameState.safeBag,gameState.omenBag,bagDraws,direct&&!directCanceled);
+  const drawn=drawFromSupply(gameState.safeBag,gameState.omenBag,bagDraws,direct);
   if(!drawn){isRolling=false;btn.disabled=false;return alert("Insufficient dice.");}
   gameState.safeBag-=drawn.filter(d=>d.type==="safe").length;
   gameState.omenBag-=drawn.filter(d=>d.type==="omen"&&!d.direct).length;
-  if(direct&&!directCanceled)gameState.omenPool--;
+  if(direct)gameState.omenPool--;
   refreshBag();
   if(omenWounds()===3 && drawn.some(d=>d.type==="omen")){
     stagedCheck={...ctx,drawn};
