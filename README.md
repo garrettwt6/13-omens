@@ -4,6 +4,8 @@ Run a table from your computer, with phones and other computers connected over t
 
 ## Start a local table
 
+On Windows, after installing Node.js and extracting the repository, double-click `start-server.bat`. It runs from its own folder, installs missing dependencies using `npm.cmd ci`, and starts the server using `npm.cmd start`. Keep its window open while playing. The first installation needs internet access. The manual steps below work too; in PowerShell, use `npm.cmd` instead of `npm` if script execution is disabled.
+
 1. Install Node.js 22 or newer from https://nodejs.org/ on the host computer.
 2. Download this repository using **Code → Download ZIP** and extract it, or clone it with Git.
 3. Open a terminal in the extracted repository folder and install dependencies once:
