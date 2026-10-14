@@ -1,44 +1,51 @@
 # 13 Omens tabletop companion
 
-A static browser app for hosting a table and managing protagonists, adventures, and dice checks. No build framework, package installation, or application server is required.
+Run a table from your computer, with phones and other computers connected over the same private Wi-Fi. The host's browser controls game rules and dice supply; a small local Node.js server serves the app and routes messages over WebSockets. No cloud account, paid hosting, TURN relay, or internet connection is needed during play. Optional Google Fonts fall back to installed fonts without internet access.
+
+## Start a local table
+
+1. Install Node.js 22 or newer from https://nodejs.org/ on the host computer.
+2. Download this repository using **Code → Download ZIP** and extract it, or clone it with Git.
+3. Open a terminal in the extracted repository folder and install dependencies once:
+
+   ```sh
+   npm ci
+   ```
+
+4. Start the server before each session:
+
+   ```sh
+   npm start
+   ```
+
+5. On the computer, open the **Computer** address printed in the terminal. Select **Host Chamber**, import `hollybrook.adventure.json` from the repository folder, and activate it. `blank.adventure.json` is a custom adventure template.
+6. On every phone, open one of the **Share with players on your Wi-Fi** addresses printed in the terminal directly in Safari or Chrome. Select **Player Dossier** and enter the host's current room code.
+
+Use the computer's Wi-Fi address on phones; `localhost` on a phone points to the phone itself. If several addresses are printed, use the address for the computer's active Wi-Fi connection. Allow Node.js or TCP port 3000 through the host's firewall on the private network if prompted. Guest Wi-Fi or router client isolation may block access.
+
+Keep the terminal and Host Chamber tab open, and keep the computer awake. Stop the server with Ctrl+C after the session. The server listens on all interfaces so phones can reach it; use it on a trusted private network and do not forward its port to the internet. Table codes are for selecting a table, not authentication.
+
+The server holds room membership in memory, and the host browser holds game state. Closing the host ends its table; restarting the server disconnects everyone. Players can reconnect with the current code while the host is still present. Character sheets and adventure imports persist in browser local storage. Export characters before changing from downloaded files or GitHub Pages to the local server, because each address has separate storage.
+
+## Troubleshooting
+
+- **The phone cannot open the address:** check both devices are on the same Wi-Fi, the computer is awake, the server is running, and the firewall allows port 3000.
+- **Host not found:** keep the Host Chamber tab open and enter its current room code.
+- **Connection fails on GitHub Pages or a downloaded HTML file:** use the address printed by `npm start`. Those versions support solo play; GitHub Pages cannot run the local WebSocket server.
+- **Port 3000 is already in use:** stop the other process or set `PORT` before starting the server (for example, `PORT=3001 npm start` on macOS/Linux or `$env:PORT=3001; npm start` in PowerShell).
+
+## Development and tests
+
+```sh
+npm ci
+npm test
+npm start
+```
+
+`13_omens_visual_qa_v4.html` is the main UI and rule engine. `local-peer.js` adapts its existing host/player message interface to the local server. `server.cjs` serves an explicit list of public files, assigns guest identities, and routes messages within their table.
+
+Tests exercise dice rules, browser connection failure handling, and live WebSocket routing with a host and two players. Physical-device connectivity still depends on the host firewall and local network.
 
 ## GitHub Pages
 
-The root `index.html` forwards visitors to the app when Pages publishes directly from `main`. The workflow in `.github/workflows/pages.yml` runs the regression tests and publishes the HTML app as `index.html`, together with both adventure JSON files. The rules PDF stays in the repository and is not included in the deployed site.
-
-To activate hosting:
-
-1. Commit and push the app changes, tests, README, and workflow to `main`.
-2. Open the repository's **Settings → Pages** and choose **GitHub Actions** as the source.
-3. Open **Actions → Deploy app to GitHub Pages** and run the workflow if the push happened before Pages was enabled.
-4. Wait for a successful deployment. Use the URL shown by the deployment on both devices.
-
-The expected URL is `https://garrettwt6.github.io/13-omens/`; it is not live until GitHub completes deployment.
-
-## Start a table
-
-On the computer, open the hosted app, select **Host Chamber**, and keep the tab open and the device awake. Download [the Hollybrook adventure](hollybrook.adventure.json), import it using the adventure file picker, and activate it. [The blank adventure](blank.adventure.json) is a template for custom content.
-
-On the phone, open the same hosted app directly in Chrome or Safari, select **Player Dossier**, and enter the computer's current room code. Both devices must have internet access. The host shares the active adventure with connected players.
-
-HTTPS hosting ensures both devices can load the same app version. Table connections still use PeerJS/WebRTC; hosting alone does not guarantee connectivity. Networks that block direct connections may require a tested TURN relay over TCP/TLS. The app reports connection errors and times out unsuccessful joins after 20 seconds.
-
-Character sheets and imported adventures are saved in browser local storage. Local-file and hosted versions have separate storage; export existing characters before switching URLs and keep those exports as backups.
-
-## Local development
-
-From the repository root:
-
-```sh
-python -m http.server 8000 --bind 127.0.0.1
-```
-
-Open `13_omens_visual_qa_v4.html` through that server for local development. The deployment workflow creates `index.html` from this source; edit the source HTML rather than maintaining a second copy.
-
-Run regression tests with Node.js 22 or later:
-
-```sh
-node --test tests/*.test.cjs
-```
-
-The tests cover direct-Omen dice selection and connection failure handling. Actual connections between devices require separate live multiplayer testing.
+The Pages workflow tests and publishes a static **solo-play** version with the adventure files. It does not provide multiplayer hosting. The root `index.html` also opens the app when Pages publishes directly from the branch. To play together, run the local server above.

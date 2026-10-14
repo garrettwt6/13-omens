@@ -22,6 +22,8 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '22'
+      - name: Install dependencies
+        run: npm ci
       - name: Run regression tests
         run: node --test tests/*.test.cjs
       - name: Prepare static site
@@ -29,7 +31,7 @@ jobs:
           mkdir -p _site
           cp 13_omens_visual_qa_v4.html _site/index.html
           cp 13_omens_visual_qa_v4.html _site/
-          cp hollybrook.adventure.json blank.adventure.json _site/
+          cp local-peer.js hollybrook.adventure.json blank.adventure.json _site/
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
