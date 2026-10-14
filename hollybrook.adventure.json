@@ -1,0 +1,382 @@
+{
+  "schemaVersion": 1,
+  "id": "paizo-13omens-hollybrook-preview",
+  "version": "1.0.0",
+  "title": "The Haunting of Hollybrook",
+  "subtitle": "Ghost Stormers — 13 Omens Preview",
+  "source": "13 Omens Preview (2026), character sheets pp. 35–43 (PDF pp. 37–45)",
+  "storyAspects": [
+    "Charm",
+    "Ghost Stormers Lore",
+    "Mechanics",
+    "Occultism",
+    "Technology"
+  ],
+  "archetypes": {
+    "the_face": {
+      "name": "The Face",
+      "goal": "Stop at nothing, including endangering yourself and the crew, to beat out 'Ghost Bros'.",
+      "traits": "Arrogant, Driven, Melodramatic, Self-Centered, Snarky",
+      "greatStoryAspect": "Charm",
+      "storyAspects": [
+        "Charm",
+        "Ghost Stormers Lore",
+        "Mechanics",
+        "Occultism",
+        "Technology"
+      ],
+      "perks": [
+        {
+          "id": "bossy",
+          "name": "Bossy",
+          "desc": "Once per Act, demand another aid you (Edge), taking highest and lowest die.",
+          "type": "act"
+        },
+        {
+          "id": "demand_focus",
+          "name": "Demand Focus",
+          "desc": "Charm check to draw attention gains an Edge.",
+          "type": "passive"
+        },
+        {
+          "id": "face_danger",
+          "name": "Face Danger",
+          "desc": "Once per scene when recorded, cancel 1 Flaw from supernatural danger.",
+          "type": "scene"
+        },
+        {
+          "id": "nonbeliever",
+          "name": "Nonbeliever",
+          "desc": "Ignore 1 Flaw vs supernatural if refusing to acknowledge reality.",
+          "type": "passive"
+        },
+        {
+          "id": "self_confident",
+          "name": "Self-Confident",
+          "desc": "Once per Act, give a 1-min pep talk to add an Edge to 1 check in next min.",
+          "type": "act"
+        },
+        {
+          "id": "wealthy",
+          "name": "Wealthy",
+          "desc": "Start with 8 gear items and $500 in cash.",
+          "type": "passive"
+        }
+      ],
+      "gearPool": [
+        "Mic (Starting)",
+        "Branded T-Shirt",
+        "Cell Phone",
+        "Flashlight",
+        "Flashy Jewelry",
+        "Flask",
+        "Ghost Detector",
+        "History Book",
+        "Infrared Camera",
+        "Laptop",
+        "Makeup Kit",
+        "Map of Hollybrook Inn",
+        "Self-Published Memoir"
+      ]
+    },
+    "gopher_supreme": {
+      "name": "Gopher Supreme",
+      "goal": "Sneak away to work on your screenplay (your ticket out of this job).",
+      "traits": "Burnt Out, Fed Up, Grumbly, Helpful, Passive Aggressive, Tired",
+      "greatStoryAspect": "Mechanics",
+      "storyAspects": [
+        "Charm",
+        "Ghost Stormers Lore",
+        "Mechanics",
+        "Occultism",
+        "Technology"
+      ],
+      "perks": [
+        {
+          "id": "carry_on",
+          "name": "Carry On",
+          "desc": "Never take a Flaw on any Check when at 3 Wounds.",
+          "type": "passive"
+        },
+        {
+          "id": "five_min_break",
+          "name": "Five Minute Break",
+          "desc": "Once per story, 5-min uninterrupted break removes a Strain.",
+          "type": "story"
+        },
+        {
+          "id": "gripe",
+          "name": "Gripe and Complain",
+          "desc": "Once per Act, on a Flaw roll take highest and lowest dice.",
+          "type": "act"
+        },
+        {
+          "id": "pack_mule",
+          "name": "Pack Mule",
+          "desc": "Start with 6 gear items. Pull 1 forgot item once per story.",
+          "type": "story"
+        },
+        {
+          "id": "perfect_tool",
+          "name": "Perfect Tool",
+          "desc": "Once per story, produce the perfect tool for Edge and keep it.",
+          "type": "story"
+        },
+        {
+          "id": "quick_search",
+          "name": "Quick Search",
+          "desc": "Search twice as fast or twice as large without Flaws.",
+          "type": "passive"
+        }
+      ],
+      "gearPool": [
+        "Unfinished Screenplay (Starting)",
+        "Weight Belt (Starting)",
+        "Cell Phone",
+        "Cigarettes & Lighter",
+        "Cleanup Kit",
+        "Power Cables",
+        "First Aid Kit",
+        "Flask",
+        "Hammer",
+        "Helmet with Light",
+        "Leather Jacket",
+        "Lighting Rig",
+        "Pocket Handgun (6 shots)",
+        "Screwdriver Set",
+        "Smoke Machine",
+        "Sound System",
+        "Work Gloves"
+      ]
+    },
+    "the_fan": {
+      "name": "The Fan",
+      "goal": "Get every member of Ghost Stormers to sign your notebook and nab souvenirs.",
+      "traits": "Eager, Excitable, Friendly, Knowledgeable, Overfamiliar, Talkative",
+      "greatStoryAspect": "Ghost Stormers Lore",
+      "storyAspects": [
+        "Charm",
+        "Ghost Stormers Lore",
+        "Mechanics",
+        "Occultism",
+        "Technology"
+      ],
+      "perks": [
+        {
+          "id": "eager_help",
+          "name": "Eager to Help",
+          "desc": "Once per Act when aiding, cancel 1 additional Flaw on that roll.",
+          "type": "act"
+        },
+        {
+          "id": "encyclopedic",
+          "name": "Encyclopedic Memory",
+          "desc": "Once per Act, add an Edge to Ghost Stormers Lore Check.",
+          "type": "act"
+        },
+        {
+          "id": "impress",
+          "name": "Got to Impress",
+          "desc": "Once per Act, if observed by 2+ crew members, add an Edge.",
+          "type": "act"
+        },
+        {
+          "id": "ep_17",
+          "name": "In Episode 17...",
+          "desc": "Once per Act, give another character 1 handheld gear piece.",
+          "type": "act"
+        },
+        {
+          "id": "local_edge",
+          "name": "Local Edge",
+          "desc": "Once per Act, cancel a Flaw on Evade or Perception.",
+          "type": "act"
+        },
+        {
+          "id": "lucky_perk",
+          "name": "Lucky",
+          "desc": "Once per game, use Luck in place of any Aspect.",
+          "type": "story"
+        }
+      ],
+      "gearPool": [
+        "Fan Notebook (Starting)",
+        "Hollybrook Keyring (Starting)",
+        "Ghost Stormers DVD (Starting)",
+        "Anxiety Medication",
+        "Cell Phone",
+        "Disposable Camera",
+        "Ghost 'Meter'",
+        "Flashlight Prototype",
+        "Candy Bar",
+        "Host's Headshot",
+        "Local Guidebook",
+        "Pocket Knife",
+        "Headphones"
+      ]
+    },
+    "tech_specialist": {
+      "name": "Tech Specialist",
+      "goal": "Refine demo reel to send to a Hollywood studio; hunt for evocative shots.",
+      "traits": "Chill, Dedicated, Drama Averse, Focused, Professional, Understated",
+      "greatStoryAspect": "Technology",
+      "storyAspects": [
+        "Charm",
+        "Ghost Stormers Lore",
+        "Mechanics",
+        "Occultism",
+        "Technology"
+      ],
+      "perks": [
+        {
+          "id": "chill_out",
+          "name": "Chill Out",
+          "desc": "Ignore first Flaw on Courage Check. Lost if Courage is Strained.",
+          "type": "passive"
+        },
+        {
+          "id": "close_up",
+          "name": "Close Up",
+          "desc": "Edge on Perception while filming or reviewing footage.",
+          "type": "passive"
+        },
+        {
+          "id": "junk_bag",
+          "name": "Junk Bag",
+          "desc": "Start with 6 gear items. Select 1 forgot item once per story.",
+          "type": "story"
+        },
+        {
+          "id": "shot_focused",
+          "name": "Shot Focused",
+          "desc": "Edge on checks made in response to what is seen through lens.",
+          "type": "passive"
+        },
+        {
+          "id": "tech_pro",
+          "name": "Tech Pro",
+          "desc": "Once per Act, add an Edge to Technology Check.",
+          "type": "act"
+        },
+        {
+          "id": "tinkerer",
+          "name": "Tinkerer",
+          "desc": "Use Technology to make gear perform unintended functions.",
+          "type": "passive"
+        }
+      ],
+      "gearPool": [
+        "Camera (Starting)",
+        "Sound Gear (Starting)",
+        "Light Rig (Starting)",
+        "Backup Battery",
+        "Boom Mic",
+        "Cassette Recorder",
+        "Cell Phone",
+        "Fog Machine",
+        "Ghost Rig",
+        "Joints & Lighter",
+        "Light Gel Kit",
+        "Palm Backup Camera",
+        "Pocket Knife",
+        "Scary Prop Box",
+        "Small Pyrotechnics Kit",
+        "Tablet",
+        "Wiring Kit"
+      ]
+    },
+    "true_believer": {
+      "name": "The True Believer",
+      "goal": "Expose 'The Truth' by getting the crew to film undeniable paranormal evidence.",
+      "traits": "Awkward, Convinced, Gullible, Mysterious, Obsessed, Zealous",
+      "greatStoryAspect": "Occultism",
+      "storyAspects": [
+        "Charm",
+        "Ghost Stormers Lore",
+        "Mechanics",
+        "Occultism",
+        "Technology"
+      ],
+      "perks": [
+        {
+          "id": "awkward_pause",
+          "name": "Awkward Pause",
+          "desc": "Once per story, reroll any check with same dice, take better result.",
+          "type": "story"
+        },
+        {
+          "id": "believer",
+          "name": "Believer",
+          "desc": "Ignore 1 Flaw vs supernatural if believing it is real.",
+          "type": "passive"
+        },
+        {
+          "id": "occult_insight",
+          "name": "Insight into the Occult",
+          "desc": "Edge when checking to understand supernatural effects.",
+          "type": "passive"
+        },
+        {
+          "id": "invisible",
+          "name": "Invisible",
+          "desc": "Once per Act, pass off a requested check to another in scene.",
+          "type": "act"
+        },
+        {
+          "id": "strange_ritual",
+          "name": "Strange Ritual",
+          "desc": "Once per Act, perform ritual to grant another an Edge for 1 min.",
+          "type": "act"
+        },
+        {
+          "id": "the_truth",
+          "name": "The Truth",
+          "desc": "Take Omen Wound only on rolling a 1 (any Act), but die at 2 Wounds and never Cheat Death.",
+          "type": "passive"
+        }
+      ],
+      "gearPool": [
+        "Book About Spirits (Starting)",
+        "Copy of Manifesto (Starting)",
+        "Crystals",
+        "Powdered Silver",
+        "Believer T-Shirt",
+        "Coyote Crunch Snack Mix",
+        "Cell Phone",
+        "Flashlight",
+        "Medication",
+        "Package of Incense",
+        "Polyhedral Dice",
+        "Spirit Board",
+        "RPG Rulebook",
+        "Spirit Guidebook",
+        "Tarot Deck"
+      ]
+    }
+  },
+  "host": {
+    "overview": "Run the adventure using your copy of the 13 Omens Preview. This template provides character options and a private Host notes area; it does not reproduce the adventure prose.",
+    "scenes": [
+      {
+        "id": "prologue",
+        "title": "Prologue",
+        "notes": "Read the scenario prologue from the Preview PDF."
+      },
+      {
+        "id": "act1",
+        "title": "Act One",
+        "notes": "Track scenes, investigation and Omen escalation using the Preview PDF."
+      },
+      {
+        "id": "act2",
+        "title": "Act Two",
+        "notes": "Consult the story for its supernatural developments and clues."
+      },
+      {
+        "id": "act3",
+        "title": "Act Three",
+        "notes": "Consult the story for confrontation and outcomes."
+      }
+    ]
+  }
+}

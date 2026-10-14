@@ -1,0 +1,60 @@
+{
+  "schemaVersion": 1,
+  "id": "custom-adventure",
+  "version": "1.0.0",
+  "title": "My Custom Adventure",
+  "subtitle": "Editable starter template",
+  "storyAspects": [
+    "Aspect One",
+    "Aspect Two",
+    "Aspect Three",
+    "Aspect Four",
+    "Aspect Five"
+  ],
+  "archetypes": {
+    "investigator": {
+      "name": "Investigator",
+      "goal": "Discover the truth",
+      "traits": "Curious, cautious",
+      "greatStoryAspect": "Aspect One",
+      "perks": [
+        {
+          "id": "keen_eye",
+          "name": "Keen Eye",
+          "desc": "Once per Act, gain an Edge on a relevant Perception Check.",
+          "type": "act"
+        }
+      ],
+      "gearPool": [
+        "Notebook (Starting)",
+        "Flashlight",
+        "Cell Phone"
+      ]
+    }
+  },
+  "host": {
+    "overview": "Add private story notes here.",
+    "scenes": [
+      {
+        "id": "prologue",
+        "title": "Prologue",
+        "notes": "Opening situation."
+      },
+      {
+        "id": "act1",
+        "title": "Act One",
+        "notes": "Investigate."
+      },
+      {
+        "id": "act2",
+        "title": "Act Two",
+        "notes": "Escalate."
+      },
+      {
+        "id": "act3",
+        "title": "Act Three",
+        "notes": "Conclude."
+      }
+    ]
+  }
+}
