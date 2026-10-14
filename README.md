@@ -4,7 +4,7 @@ A static browser app for hosting a table and managing protagonists, adventures, 
 
 ## GitHub Pages
 
-The workflow in `.github/workflows/pages.yml` runs the regression tests and publishes the HTML app as `index.html`, together with both adventure JSON files. The rules PDF stays in the repository and is not included in the deployed site.
+The root `index.html` forwards visitors to the app when Pages publishes directly from `main`. The workflow in `.github/workflows/pages.yml` runs the regression tests and publishes the HTML app as `index.html`, together with both adventure JSON files. The rules PDF stays in the repository and is not included in the deployed site.
 
 To activate hosting:
 
